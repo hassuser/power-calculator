@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Power Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #444;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .result {
+      background: #eef3ff;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      background: #ddd;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .tab-button.active {
+      background: #4285f4;
+      color: white;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .phase-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .phase-label {
+      font-weight: bold;
+      margin: 8px 0 4px;
+      color: #666;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 2 columns */
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .clear-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      background: #f44336;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo.svg" alt="Power Calculator Logo" style="display:block;margin:0 auto 20px;width:96px;height:96px;">
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="mono">Monofásico</button>
+      <button class="tab-button" data-tab="tri">Trifásico</button>
+    </div>
+
+    <!-- Monofasico -->
+    <div class="tab-content active" id="mono">
+      <h2>Monofásico</h2>
+      <label for="current">Corriente (A):</label>
+      <input type="number" id="current" placeholder="Corriente (A)">
+
+      <label for="voltage">Voltaje (V):</label>
+      <input type="number" id="voltage" placeholder="Voltaje (V)">
+
+      <label for="cos">Cos(φ):</label>
+      <input type="number" id="cos" min="-1" max="1" placeholder="Cos φ">
+
+      <!-- Results grid -->
+      <div class="results-grid">
+        <div class="result" id="pactiva">Activa: </div>
+        <div class="result" id="preactiva">Reactiva: </div>
+      </div>
+
+      <button class="clear-btn" id="clearMono">Limpiar</button>
+    </div>
+
+    <!-- Trifasico -->
+    <div class="tab-content" id="tri">
+      <h2>Trifásico</h2>
+
+      <div class="phase-label">Fase R</div>
+      <div class="phase-group">
+        <input type="number" id="aR" placeholder="Corriente (A)">
+        <input type="number" id="vR" placeholder="Voltaje (V)">
+        <input type="number" id="cosR" min="-1" max="1" placeholder="Cos φ">
+      </div>
+
+      <div class="phase-label">Fase S</div>
+      <div class="phase-group">
+        <input type="number" id="aS" placeholder="Corriente (A)">
+        <input type="number" id="vS" placeholder="Voltaje (V)">
+        <input type="number" id="cosS" min="-1" max="1" placeholder="Cos φ">
+      </div>
+
+      <div class="phase-label">Fase T</div>
+      <div class="phase-group">
+        <input type="number" id="aT" placeholder="Corriente (A)">
+        <input type="number" id="vT" placeholder="Voltaje (V)">
+        <input type="number" id="cosT" min="-1" max="1" placeholder="Cos φ">
+      </div>
+
+      <!-- Results compact grid -->
+      <div class="results-grid">
+        <div class="result" id="pR">Activa: </div>
+        <div class="result" id="qR">Reactiva: </div>
+        <div class="result" id="pS">Activa: </div>
+        <div class="result" id="qS">Reactiva: </div>
+        <div class="result" id="pT">Activa: </div>
+        <div class="result" id="qT">Reactiva: </div>
+      </div>
+
+      <button class="clear-btn" id="clearTri">Limpiar</button>
+    </div>
+  </div>
+
+  <script>
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Monofasico
+    const voltageInput = document.getElementById('voltage');
+    const currentInput = document.getElementById('current');
+    const cosInput = document.getElementById('cos');
+    const pactivaDiv = document.getElementById('pactiva');
+    const preactivaDiv = document.getElementById('preactiva');
+
+    function calculateMono() {
+      const V = parseFloat(voltageInput.value) || 0;
+      const A = parseFloat(currentInput.value) || 0;
+      const cos = parseFloat(cosInput.value);
+
+      if (isNaN(cos) || cos < -1 || cos > 1) {
+        pactivaDiv.textContent = "Activa: ";
+        preactivaDiv.textContent = "Reactiva: ";
+        return;
+      }
+
+      const P = V * A * cos;
+      const Q = V * A * 1; // Use SENO = 1 as in your Excel screenshot
+
+      pactivaDiv.textContent = `Activa: ${P.toFixed(1)}`;
+      preactivaDiv.textContent = `Reactiva: ${Q.toFixed(1)}`;
+    }
+
+    [voltageInput, currentInput, cosInput].forEach(el => {
+      el.addEventListener('input', calculateMono);
+    });
+
+    document.getElementById('clearMono').addEventListener('click', () => {
+      [voltageInput, currentInput, cosInput].forEach(el => el.value = '');
+      pactivaDiv.textContent = "Activa: ";
+      preactivaDiv.textContent = "Reactiva: ";
+    });
+
+    // Trifasico
+    function calculateTri(phase) {
+      const V = parseFloat(document.getElementById('v'+phase).value) || 0;
+      const A = parseFloat(document.getElementById('a'+phase).value) || 0;
+      const cos = parseFloat(document.getElementById('cos'+phase).value);
+      const pDiv = document.getElementById('p'+phase);
+      const qDiv = document.getElementById('q'+phase);
+
+      if (isNaN(cos) || cos < -1 || cos > 1) {
+        pDiv.textContent = `Activa: `;
+        qDiv.textContent = `Reactiva: `;
+        return;
+      }
+
+      // Calculate seno as Excel does: seno = SQRT(1 - cos^2)
+      const seno = Math.sqrt(1 - cos * cos);
+
+      // Potencia activa y reactiva por fase
+      const P = V * A * cos;
+      const Q = V * A * seno;
+
+      pDiv.textContent = `Activa: ${P.toFixed(1)}`;
+      qDiv.textContent = `Reactiva: ${Q.toFixed(1)}`;
+    }
+
+    ['R','S','T'].forEach(phase => {
+      ['v','a','cos'].forEach(prefix => {
+        document.getElementById(prefix+phase).addEventListener('input', () => calculateTri(phase));
+      });
+    });
+
+    document.getElementById('clearTri').addEventListener('click', () => {
+      ['R','S','T'].forEach(phase => {
+        ['v','a','cos'].forEach(prefix => {
+          document.getElementById(prefix+phase).value = '';
+        });
+        document.getElementById('p'+phase).textContent = `Activa: `;
+        document.getElementById('q'+phase).textContent = `Reactiva: `;
+      });
+    });
+  </script>
+</body>
+</html>
