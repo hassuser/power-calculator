@@ -5,44 +5,49 @@
   <title>Power Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      font-size: 18px; /* Increased base font size */
+      font-size: 18px;
+      min-height: 100vh; /* allow scrolling if needed */
+      display: block;    /* remove flex centering */
     }
     .container {
       background: white;
-      padding: 16px;
+      padding: 12px 6px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 440px; /* Slightly wider for mobile */
+      max-width: 380px;
+      margin: 24px auto 24px auto; /* add margin for mobile */
     }
     h2 {
       text-align: center;
       margin-bottom: 12px;
       color: #333;
-      font-size: 24px; /* Larger heading */
+      font-size: 22px;
     }
     label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
       color: #444;
-      font-size: 17px; /* Larger label */
+      font-size: 16px;
     }
     input {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 19px; /* Larger input text */
+      font-size: 18px;
       font-weight: bold;
       -moz-appearance: textfield;
       box-sizing: border-box;
@@ -52,26 +57,26 @@
       -webkit-appearance: none;
       margin: 0;
     }
-    .result {
+    .result, .result * {
       background: #eef3ff;
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
-      font-size: 19px; /* Larger result text */
-      font-weight: bold !important; /* Always bold */
+      font-size: 18px;
+      font-weight: bold !important;
       text-align: center;
     }
     .tabs {
       display: flex;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .tab-button {
       flex: 1;
-      padding: 14px;
+      padding: 10px;
       cursor: pointer;
       border: none;
       background: #ddd;
       font-weight: bold;
-      font-size: 18px; /* Larger tab text */
+      font-size: 16px;
       border-radius: 8px 8px 0 0;
     }
     .tab-button.active {
@@ -83,48 +88,55 @@
     .phase-group {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
     .phase-label {
       font-weight: bold;
       margin: 8px 0 4px;
       color: #666;
-      font-size: 17px;
+      font-size: 15px;
     }
     .results-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
     }
     .clear-btn {
       width: 100%;
-      margin-top: 14px;
-      padding: 14px;
+      margin-top: 12px;
+      padding: 12px;
       background: #f44336;
       color: white;
       font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     @media (max-width: 480px) {
       .container {
-        max-width: 98vw;
-        padding: 8px;
+        max-width: 99vw;
+        padding: 4px 2px;
+        margin: 8px auto 8px auto;
       }
       h2 {
-        font-size: 20px;
+        font-size: 18px;
       }
       label, .phase-label {
-        font-size: 16px;
+        font-size: 14px;
       }
       input, .result, .tab-button, .clear-btn {
-        font-size: 17px;
-        padding: 12px;
+        font-size: 15px;
+        padding: 8px;
+      }
+      .results-grid {
+        gap: 4px;
+      }
+      .phase-group {
+        gap: 4px;
       }
     }
   </style>
