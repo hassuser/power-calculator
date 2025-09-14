@@ -13,7 +13,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      font-size: 16px; /* Slightly larger base font */
+      font-size: 18px; /* Increased base font size */
     }
     .container {
       background: white;
@@ -21,28 +21,28 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 420px; /* Slightly narrower for mobile */
+      max-width: 440px; /* Slightly wider for mobile */
     }
     h2 {
       text-align: center;
       margin-bottom: 12px;
       color: #333;
-      font-size: 22px; /* Larger heading */
+      font-size: 24px; /* Larger heading */
     }
     label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
       color: #444;
-      font-size: 15px; /* Slightly larger */
+      font-size: 17px; /* Larger label */
     }
     input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 17px; /* Larger input text */
+      font-size: 19px; /* Larger input text */
       font-weight: bold;
       -moz-appearance: textfield;
       box-sizing: border-box;
@@ -54,10 +54,10 @@
     }
     .result {
       background: #eef3ff;
-      padding: 12px;
+      padding: 14px;
       border-radius: 8px;
-      font-size: 17px; /* Larger result text */
-      font-weight: bold;
+      font-size: 19px; /* Larger result text */
+      font-weight: bold !important; /* Always bold */
       text-align: center;
     }
     .tabs {
@@ -66,12 +66,12 @@
     }
     .tab-button {
       flex: 1;
-      padding: 12px;
+      padding: 14px;
       cursor: pointer;
       border: none;
       background: #ddd;
       font-weight: bold;
-      font-size: 16px; /* Larger tab text */
+      font-size: 18px; /* Larger tab text */
       border-radius: 8px 8px 0 0;
     }
     .tab-button.active {
@@ -90,7 +90,7 @@
       font-weight: bold;
       margin: 8px 0 4px;
       color: #666;
-      font-size: 15px;
+      font-size: 17px;
     }
     .results-grid {
       display: grid;
@@ -101,14 +101,14 @@
     .clear-btn {
       width: 100%;
       margin-top: 14px;
-      padding: 12px;
+      padding: 14px;
       background: #f44336;
       color: white;
       font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
     }
 
     @media (max-width: 480px) {
@@ -117,14 +117,14 @@
         padding: 8px;
       }
       h2 {
-        font-size: 18px;
+        font-size: 20px;
       }
       label, .phase-label {
-        font-size: 14px;
+        font-size: 16px;
       }
       input, .result, .tab-button, .clear-btn {
-        font-size: 15px;
-        padding: 10px;
+        font-size: 17px;
+        padding: 12px;
       }
     }
   </style>
